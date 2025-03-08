@@ -1,365 +1,321 @@
-
 import { useState } from "react";
-import Navbar from "@/components/Navbar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { useToast } from "@/components/ui/use-toast";
-import { FileUp, Plus, Save, Table as TableIcon, UploadCloud } from "lucide-react";
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { 
+  Upload, 
+  Database, 
+  FileInput, 
+  ListCheck,
+  Plus,
+  ArrowRight,
+  Download,
+  Cloud,
+  Building
+} from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import Navbar from "@/components/Navbar";
 
 const DataInput = () => {
   const { toast } = useToast();
-  const [inputType, setInputType] = useState<"manual" | "upload">("manual");
-  const [formData, setFormData] = useState({
-    source: "",
-    category: "",
-    subcategory: "",
-    activityData: "",
-    unit: "",
-    date: "",
-    notes: "",
-  });
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleCategoryChange = (value: string) => {
-    setFormData((prev) => ({ ...prev, category: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const [activeTab, setActiveTab] = useState("manual");
+  
+  const handleManualSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Simulate success
     toast({
-      title: "Data saved successfully",
-      description: "Your emission data has been recorded.",
-      duration: 3000,
-    });
-    
-    // Reset form
-    setFormData({
-      source: "",
-      category: "",
-      subcategory: "",
-      activityData: "",
-      unit: "",
-      date: "",
-      notes: "",
+      title: "Data submitted successfully",
+      description: "Your emissions data has been recorded.",
     });
   };
-
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const fileName = e.target.files[0].name;
-      
-      toast({
-        title: "File uploaded",
-        description: `${fileName} has been uploaded and is being processed.`,
-        duration: 3000,
-      });
-      
-      // Reset file input
-      e.target.value = "";
-    }
+  
+  const handleFileUpload = () => {
+    toast({
+      title: "File uploaded",
+      description: "Your data file is being processed.",
+    });
+  };
+  
+  const handleConnectAPI = () => {
+    toast({
+      title: "API connected",
+      description: "Successfully connected to external data source.",
+    });
   };
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       
-      <main className="container px-4 md:px-6 lg:px-8 pt-24 pb-16">
-        <div className="mb-8 pt-4">
-          <h1 className="text-3xl font-bold tracking-tight animate-slide-down">Data Input</h1>
-          <p className="text-muted-foreground mt-1 animate-slide-down animation-delay-100">
-            Add and manage your emission data
-          </p>
-        </div>
-        
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          <div className="lg:col-span-2">
-            <Card className="shadow-soft animate-scale-in">
-              <CardHeader>
-                <CardTitle>Add Emission Data</CardTitle>
-                <CardDescription>
-                  Record new emission sources and activities
-                </CardDescription>
-                <Tabs value={inputType} onValueChange={(value) => setInputType(value as "manual" | "upload")} className="mt-3">
-                  <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="manual">Manual Entry</TabsTrigger>
-                    <TabsTrigger value="upload">File Upload</TabsTrigger>
-                  </TabsList>
-                </Tabs>
-              </CardHeader>
-              
-              <CardContent>
-                {inputType === "manual" ? (
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="container pt-24 pb-16 max-w-6xl mx-auto">
+        <div className="flex flex-col space-y-6">
+          <div className="space-y-2">
+            <h1 className="text-3xl font-bold tracking-tight">Data Input</h1>
+            <p className="text-muted-foreground">
+              Add your emissions data through manual entry, file upload, or connect to external systems.
+            </p>
+          </div>
+          
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="grid grid-cols-3 w-full md:w-[400px]">
+              <TabsTrigger value="manual">Manual Entry</TabsTrigger>
+              <TabsTrigger value="upload">File Upload</TabsTrigger>
+              <TabsTrigger value="api">External Data</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="manual" className="space-y-6 mt-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Manual Data Entry</CardTitle>
+                  <CardDescription>
+                    Enter your emissions data directly using the form below.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <form onSubmit={handleManualSubmit} className="space-y-6">
+                    <div className="grid gap-4 md:grid-cols-2">
                       <div className="space-y-2">
-                        <Label htmlFor="source">Emission Source</Label>
-                        <Input
-                          id="source"
-                          name="source"
-                          placeholder="e.g., Company Vehicles"
-                          value={formData.source}
-                          onChange={handleInputChange}
-                          required
-                        />
+                        <Label htmlFor="activityName">Activity Name</Label>
+                        <Input id="activityName" placeholder="e.g., Business Travel" required />
                       </div>
-                      
                       <div className="space-y-2">
-                        <Label htmlFor="category">Scope Category</Label>
-                        <Select value={formData.category} onValueChange={handleCategoryChange} required>
-                          <SelectTrigger id="category">
+                        <Label htmlFor="date">Date</Label>
+                        <Input id="date" type="date" required />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="ghgScope">GHG Protocol Scope</Label>
+                        <Select defaultValue="scope1">
+                          <SelectTrigger>
                             <SelectValue placeholder="Select scope" />
                           </SelectTrigger>
                           <SelectContent>
                             <SelectItem value="scope1">Scope 1 (Direct Emissions)</SelectItem>
-                            <SelectItem value="scope2">Scope 2 (Indirect Emissions)</SelectItem>
-                            <SelectItem value="scope3">Scope 3 (Value Chain)</SelectItem>
+                            <SelectItem value="scope2">Scope 2 (Indirect Emissions - Energy)</SelectItem>
+                            <SelectItem value="scope3">Scope 3 (Indirect Emissions - Value Chain)</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="category">Category</Label>
+                        <Select>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select category" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="stationary">Stationary Combustion</SelectItem>
+                            <SelectItem value="mobile">Mobile Combustion</SelectItem>
+                            <SelectItem value="fugitive">Fugitive Emissions</SelectItem>
+                            <SelectItem value="process">Process Emissions</SelectItem>
+                            <SelectItem value="purchased_electricity">Purchased Electricity</SelectItem>
+                            <SelectItem value="purchased_heat">Purchased Heat</SelectItem>
+                            <SelectItem value="business_travel">Business Travel</SelectItem>
+                            <SelectItem value="employee_commuting">Employee Commuting</SelectItem>
+                            <SelectItem value="waste">Waste Generated</SelectItem>
+                            <SelectItem value="transportation">Transportation & Distribution</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="quantity">Quantity</Label>
+                        <Input id="quantity" type="number" step="0.01" min="0" placeholder="0.00" required />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="unit">Unit</Label>
+                        <Select defaultValue="kg">
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select unit" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="kg">kg CO₂e</SelectItem>
+                            <SelectItem value="ton">tonnes CO₂e</SelectItem>
+                            <SelectItem value="kwh">kWh</SelectItem>
+                            <SelectItem value="liter">Liters</SelectItem>
+                            <SelectItem value="km">Kilometers</SelectItem>
+                            <SelectItem value="mile">Miles</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
                     </div>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="subcategory">Subcategory</Label>
-                        <Input
-                          id="subcategory"
-                          name="subcategory"
-                          placeholder="e.g., Natural Gas, Electricity"
-                          value={formData.subcategory}
-                          onChange={handleInputChange}
-                        />
-                      </div>
-                      
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="activityData">Activity Data</Label>
-                          <Input
-                            id="activityData"
-                            name="activityData"
-                            type="number"
-                            placeholder="e.g., 500"
-                            value={formData.activityData}
-                            onChange={handleInputChange}
-                            required
-                          />
-                        </div>
-                        
-                        <div className="space-y-2">
-                          <Label htmlFor="unit">Unit</Label>
-                          <Select required>
-                            <SelectTrigger id="unit">
-                              <SelectValue placeholder="Select unit" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="kwh">kWh</SelectItem>
-                              <SelectItem value="liters">Liters</SelectItem>
-                              <SelectItem value="kg">Kilograms</SelectItem>
-                              <SelectItem value="miles">Miles</SelectItem>
-                              <SelectItem value="tonnes">Tonnes</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      </div>
+                    <div>
+                      <Label htmlFor="notes">Notes (Optional)</Label>
+                      <textarea 
+                        id="notes" 
+                        placeholder="Additional context or information..."
+                        className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none mt-1.5"
+                      />
                     </div>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="date">Date</Label>
-                        <Input
-                          id="date"
-                          name="date"
-                          type="date"
-                          value={formData.date}
-                          onChange={handleInputChange}
-                          required
-                        />
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <Label htmlFor="notes">Notes (optional)</Label>
-                        <Input
-                          id="notes"
-                          name="notes"
-                          placeholder="Additional information"
-                          value={formData.notes}
-                          onChange={handleInputChange}
-                        />
-                      </div>
-                    </div>
-                    
-                    <div className="flex justify-end pt-4">
-                      <Button className="gap-2" type="submit">
-                        <Save className="h-4 w-4" />
-                        Save Entry
-                      </Button>
+                    <div className="flex justify-end space-x-2">
+                      <Button variant="outline" type="reset">Clear</Button>
+                      <Button type="submit">Submit Entry</Button>
                     </div>
                   </form>
-                ) : (
-                  <div className="space-y-6">
-                    <div className="border-2 border-dashed border-muted rounded-lg p-10 text-center">
-                      <UploadCloud className="h-10 w-10 text-muted-foreground mx-auto mb-4" />
-                      <h3 className="text-lg font-medium mb-2">Upload your data file</h3>
-                      <p className="text-sm text-muted-foreground mb-4">
-                        Drag and drop your CSV, Excel, or compatible file here, or click to browse
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardHeader>
+                  <CardTitle>Batch Entries</CardTitle>
+                  <CardDescription>Add multiple records at once</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-1">
+                      <h4 className="text-sm font-medium">Quick Add Multiple Entries</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Use our template to add multiple emission sources at once
                       </p>
-                      <div className="flex justify-center">
-                        <Label
-                          htmlFor="file-upload"
-                          className="btn-primary cursor-pointer flex items-center gap-2 py-2"
-                        >
-                          <FileUp className="h-4 w-4" />
-                          Browse Files
-                        </Label>
-                        <Input
-                          id="file-upload"
-                          type="file"
-                          className="hidden"
-                          accept=".csv,.xlsx,.xls"
-                          onChange={handleFileUpload}
-                        />
+                    </div>
+                    <Button>
+                      <Plus className="mr-2 h-4 w-4" />
+                      Add Multiple
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            
+            <TabsContent value="upload" className="space-y-6 mt-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>File Upload</CardTitle>
+                  <CardDescription>
+                    Upload your emissions data from spreadsheets or CSV files.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-col items-center justify-center border-2 border-dashed border-muted-foreground/25 rounded-lg p-10 text-center">
+                    <Upload className="h-10 w-10 text-muted-foreground mb-4" />
+                    <h3 className="text-lg font-semibold mb-2">Drag and drop your file here</h3>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Supports Excel, CSV, and XML formats up to 10MB
+                    </p>
+                    <div className="flex flex-col md:flex-row gap-4">
+                      <Button onClick={handleFileUpload}>
+                        <FileInput className="mr-2 h-4 w-4" />
+                        Browse Files
+                      </Button>
+                      <Button variant="outline">
+                        <Download className="mr-2 h-4 w-4" />
+                        Download Template
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-8">
+                    <h4 className="text-sm font-medium mb-4">Upload History</h4>
+                    <div className="text-sm text-muted-foreground text-center py-6">
+                      No recent uploads found
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            
+            <TabsContent value="api" className="space-y-6 mt-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Connect External Data Sources</CardTitle>
+                  <CardDescription>
+                    Import data directly from your existing systems and services.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid gap-6 md:grid-cols-2">
+                    <div className="border rounded-lg p-4 hover:bg-muted/50 transition-colors">
+                      <div className="flex items-start space-x-4">
+                        <div className="bg-primary/10 p-2 rounded-full">
+                          <Database className="h-6 w-6 text-primary" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="text-base font-medium">ERP Systems</h3>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            Connect with SAP, Oracle, Microsoft Dynamics, and other ERP systems.
+                          </p>
+                          <Button variant="outline" size="sm" className="mt-3" onClick={handleConnectAPI}>
+                            Connect
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                          </Button>
+                        </div>
                       </div>
                     </div>
                     
-                    <div>
-                      <h3 className="text-sm font-medium mb-2">Supported file formats</h3>
-                      <div className="grid grid-cols-3 gap-2">
-                        <div className="flex items-center justify-center bg-muted/30 rounded-md p-2">
-                          <span className="text-xs font-medium">.CSV</span>
+                    <div className="border rounded-lg p-4 hover:bg-muted/50 transition-colors">
+                      <div className="flex items-start space-x-4">
+                        <div className="bg-primary/10 p-2 rounded-full">
+                          <ListCheck className="h-6 w-6 text-primary" />
                         </div>
-                        <div className="flex items-center justify-center bg-muted/30 rounded-md p-2">
-                          <span className="text-xs font-medium">.XLSX</span>
-                        </div>
-                        <div className="flex items-center justify-center bg-muted/30 rounded-md p-2">
-                          <span className="text-xs font-medium">.XLS</span>
+                        <div className="flex-1">
+                          <h3 className="text-base font-medium">Sustainability Platforms</h3>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            Import from specialized sustainability management platforms.
+                          </p>
+                          <Button variant="outline" size="sm" className="mt-3" onClick={handleConnectAPI}>
+                            Connect
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                          </Button>
                         </div>
                       </div>
                     </div>
                     
-                    <Separator />
+                    <div className="border rounded-lg p-4 hover:bg-muted/50 transition-colors">
+                      <div className="flex items-start space-x-4">
+                        <div className="bg-primary/10 p-2 rounded-full">
+                          <Cloud className="h-6 w-6 text-primary" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="text-base font-medium">Cloud Services</h3>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            Calculate emissions from AWS, Azure, Google Cloud, and other providers.
+                          </p>
+                          <Button variant="outline" size="sm" className="mt-3" onClick={handleConnectAPI}>
+                            Connect
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
                     
-                    <div className="space-y-2">
-                      <h3 className="text-sm font-medium">Templates</h3>
-                      <p className="text-xs text-muted-foreground">
-                        Download our pre-formatted templates for quick data entry
-                      </p>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
-                        <Button variant="outline" size="sm" className="justify-start gap-2">
-                          <TableIcon className="h-4 w-4" />
-                          Emission Data Template
-                        </Button>
-                        <Button variant="outline" size="sm" className="justify-start gap-2">
-                          <TableIcon className="h-4 w-4" />
-                          Activity Data Template
-                        </Button>
+                    <div className="border rounded-lg p-4 hover:bg-muted/50 transition-colors">
+                      <div className="flex items-start space-x-4">
+                        <div className="bg-primary/10 p-2 rounded-full">
+                          <Building className="h-6 w-6 text-primary" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="text-base font-medium">Facility Management</h3>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            Connect with building management systems for energy usage data.
+                          </p>
+                          <Button variant="outline" size="sm" className="mt-3" onClick={handleConnectAPI}>
+                            Connect
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                )}
-              </CardContent>
-            </Card>
-          </div>
-          
-          <div className="lg:col-span-1">
-            <Card className="shadow-soft animate-scale-in animation-delay-200">
-              <CardHeader>
-                <CardTitle>Recent Entries</CardTitle>
-                <CardDescription>
-                  Your recently added emission data
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="rounded-md border">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Source</TableHead>
-                        <TableHead>Amount</TableHead>
-                        <TableHead>Date</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell className="font-medium">Electricity</TableCell>
-                        <TableCell>1,250 kWh</TableCell>
-                        <TableCell>2023-06-15</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">Company Vehicles</TableCell>
-                        <TableCell>320 liters</TableCell>
-                        <TableCell>2023-06-12</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">Business Travel</TableCell>
-                        <TableCell>4,500 miles</TableCell>
-                        <TableCell>2023-06-08</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">Natural Gas</TableCell>
-                        <TableCell>800 m³</TableCell>
-                        <TableCell>2023-06-05</TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </div>
-                
-                <div className="mt-6">
-                  <Button variant="outline" className="w-full gap-2">
-                    <Plus className="h-4 w-4" />
-                    View All Entries
-                  </Button>
-                </div>
-                
-                <div className="mt-6 pt-6 border-t border-border">
-                  <h3 className="text-sm font-medium mb-4">Data Quality</h3>
-                  <div className="space-y-3">
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between text-sm">
-                        <span>Scope 1</span>
-                        <span className="font-medium text-green-600">High</span>
-                      </div>
-                      <div className="h-2 bg-muted rounded-full overflow-hidden">
-                        <div className="h-full bg-green-500 rounded-full" style={{ width: "92%" }}></div>
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between text-sm">
-                        <span>Scope 2</span>
-                        <span className="font-medium text-green-600">High</span>
-                      </div>
-                      <div className="h-2 bg-muted rounded-full overflow-hidden">
-                        <div className="h-full bg-green-500 rounded-full" style={{ width: "85%" }}></div>
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between text-sm">
-                        <span>Scope 3</span>
-                        <span className="font-medium text-yellow-600">Medium</span>
-                      </div>
-                      <div className="h-2 bg-muted rounded-full overflow-hidden">
-                        <div className="h-full bg-yellow-500 rounded-full" style={{ width: "58%" }}></div>
-                      </div>
-                    </div>
+                  
+                  <div className="flex justify-end mt-6">
+                    <Button variant="outline">
+                      <Plus className="mr-2 h-4 w-4" />
+                      Custom API Integration
+                    </Button>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
         </div>
-      </main>
+      </div>
     </div>
   );
 };
