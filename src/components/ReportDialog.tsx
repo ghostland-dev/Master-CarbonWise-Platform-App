@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import ReportGenerationForm from "./ReportGenerationForm";
 
 interface ReportDialogProps {
@@ -25,11 +25,27 @@ const ReportDialog = ({ open, onOpenChange, reportType }: ReportDialogProps) => 
     }
   };
 
+  const getReportDescription = (type: string) => {
+    switch (type) {
+      case "csrd":
+        return "Create a compliant report for Corporate Sustainability Reporting Directive.";
+      case "custom":
+        return "Build a custom report with the metrics and data you need.";
+      case "dpp":
+        return "Generate a Digital Product Passport for your product line.";
+      case "carbon":
+        return "Calculate and report on your organization's carbon footprint.";
+      default:
+        return "Configure your report options below.";
+    }
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>{getReportTitle(reportType)}</DialogTitle>
+          <DialogDescription>{getReportDescription(reportType)}</DialogDescription>
         </DialogHeader>
         <ReportGenerationForm 
           reportType={reportType} 
