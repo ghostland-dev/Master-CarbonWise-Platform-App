@@ -9,11 +9,16 @@ import { Input } from "@/components/ui/input";
 import { 
   FileText, Download, Calendar, Filter, Search, 
   FileCheck, FileSpreadsheet, BarChart, Printer, 
-  ChevronDown, RefreshCw, Database
+  ChevronDown, RefreshCw, Database, Share2
 } from "lucide-react";
+import ReportDialog from "@/components/ReportDialog";
+import { useToast } from "@/hooks/use-toast";
 
 const Reports = () => {
   const [selectedReportType, setSelectedReportType] = useState("compliance");
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [currentReportType, setCurrentReportType] = useState("");
+  const { toast } = useToast();
   
   const availableReports = [
     { 
@@ -71,6 +76,25 @@ const Reports = () => {
     ? availableReports 
     : availableReports.filter(report => report.type === selectedReportType);
 
+  const openReportDialog = (type: string) => {
+    setCurrentReportType(type);
+    setDialogOpen(true);
+  };
+
+  const handleDownload = (reportName: string) => {
+    toast({
+      title: "Download started",
+      description: `Downloading ${reportName}...`
+    });
+  };
+
+  const handleShare = (reportName: string) => {
+    toast({
+      title: "Share report",
+      description: `Link to ${reportName} copied to clipboard`
+    });
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -119,7 +143,13 @@ const Reports = () => {
                     <CardDescription>Corporate Sustainability Reporting Directive compliance</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <Button className="w-full" size="sm">Generate</Button>
+                    <Button 
+                      className="w-full" 
+                      size="sm"
+                      onClick={() => openReportDialog("csrd")}
+                    >
+                      Generate
+                    </Button>
                   </CardContent>
                 </Card>
 
@@ -132,7 +162,14 @@ const Reports = () => {
                     <CardDescription>Build a customized report with selected metrics</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <Button variant="outline" className="w-full" size="sm">Create</Button>
+                    <Button 
+                      variant="outline" 
+                      className="w-full" 
+                      size="sm"
+                      onClick={() => openReportDialog("custom")}
+                    >
+                      Create
+                    </Button>
                   </CardContent>
                 </Card>
 
@@ -145,7 +182,14 @@ const Reports = () => {
                     <CardDescription>Create DPPs for your product lines</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <Button variant="outline" className="w-full" size="sm">Generate</Button>
+                    <Button 
+                      variant="outline" 
+                      className="w-full" 
+                      size="sm"
+                      onClick={() => openReportDialog("dpp")}
+                    >
+                      Generate
+                    </Button>
                   </CardContent>
                 </Card>
               </div>
@@ -231,8 +275,21 @@ const Reports = () => {
                           <div className="flex items-center justify-end gap-2">
                             {report.status === "Complete" && (
                               <>
-                                <Button variant="ghost" size="icon" className="h-8 w-8">
+                                <Button 
+                                  variant="ghost" 
+                                  size="icon" 
+                                  className="h-8 w-8"
+                                  onClick={() => handleDownload(report.name)}
+                                >
                                   <Download className="h-4 w-4" />
+                                </Button>
+                                <Button 
+                                  variant="ghost" 
+                                  size="icon" 
+                                  className="h-8 w-8"
+                                  onClick={() => handleShare(report.name)}
+                                >
+                                  <Share2 className="h-4 w-4" />
                                 </Button>
                                 <Button variant="ghost" size="icon" className="h-8 w-8">
                                   <Printer className="h-4 w-4" />
@@ -305,7 +362,12 @@ const Reports = () => {
               </div>
 
               <div className="mt-4 pt-4 border-t border-border">
-                <Button className="w-full">Complete CSRD Requirements</Button>
+                <Button 
+                  className="w-full"
+                  onClick={() => openReportDialog("csrd")}
+                >
+                  Complete CSRD Requirements
+                </Button>
               </div>
             </div>
 
@@ -331,17 +393,32 @@ const Reports = () => {
                     Last updated: 2023-09-22
                   </p>
                   <div className="flex gap-2 mt-2">
-                    <Button variant="outline" size="sm" className="text-xs h-7">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="text-xs h-7"
+                      onClick={() => handleDownload("DPP - EcoFriendly Series")}
+                    >
                       <Download className="h-3 w-3 mr-1" />
                       DPP
                     </Button>
-                    <Button variant="outline" size="sm" className="text-xs h-7">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="text-xs h-7"
+                      onClick={() => openReportDialog("dpp")}
+                    >
                       Update
                     </Button>
                   </div>
                 </div>
                 
-                <Button className="w-full">Create New Product Passport</Button>
+                <Button 
+                  className="w-full"
+                  onClick={() => openReportDialog("dpp")}
+                >
+                  Create New Product Passport
+                </Button>
               </div>
             </div>
 
@@ -349,19 +426,55 @@ const Reports = () => {
             <div className="glass-card p-6 animate-slide-in-right animation-delay-200">
               <h3 className="font-medium mb-4">Export Options</h3>
               <div className="space-y-3">
-                <Button variant="outline" className="w-full justify-start">
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start"
+                  onClick={() => {
+                    toast({
+                      title: "PDF Export",
+                      description: "PDF export template selected"
+                    });
+                  }}
+                >
                   <FileText className="h-4 w-4 mr-2" />
                   PDF Report
                 </Button>
-                <Button variant="outline" className="w-full justify-start">
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start"
+                  onClick={() => {
+                    toast({
+                      title: "Excel Export",
+                      description: "Excel export template selected"
+                    });
+                  }}
+                >
                   <FileSpreadsheet className="h-4 w-4 mr-2" />
                   Excel Spreadsheet
                 </Button>
-                <Button variant="outline" className="w-full justify-start">
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start"
+                  onClick={() => {
+                    toast({
+                      title: "CSV Export", 
+                      description: "CSV export template selected"
+                    });
+                  }}
+                >
                   <Database className="h-4 w-4 mr-2" />
                   CSV Data Export
                 </Button>
-                <Button variant="outline" className="w-full justify-start">
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start"
+                  onClick={() => {
+                    toast({
+                      title: "Interactive Dashboard",
+                      description: "Interactive dashboard template selected"
+                    });
+                  }}
+                >
                   <BarChart className="h-4 w-4 mr-2" />
                   Interactive Dashboard
                 </Button>
@@ -370,6 +483,12 @@ const Reports = () => {
           </div>
         </div>
       </main>
+      
+      <ReportDialog 
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        reportType={currentReportType}
+      />
     </div>
   );
 };
