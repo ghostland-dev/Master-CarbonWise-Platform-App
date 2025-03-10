@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Calendar, Filter } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, Database, FileCheck } from "lucide-react";
+import { FileText, Database, FileCheck, BarChart2 } from "lucide-react";
 
 interface ReportActionsProps {
   openReportDialog: (type: string) => void;
@@ -35,7 +35,7 @@ const ReportActions = ({ openReportDialog }: ReportActionsProps) => {
       </div>
 
       {/* Report Generation Options */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="bg-transparent border-2 border-primary/20 hover:border-primary/40 transition-all cursor-pointer">
           <CardHeader className="pb-2">
             <div className="h-10 w-10 rounded-md bg-primary/10 flex items-center justify-center mb-2">
@@ -89,6 +89,26 @@ const ReportActions = ({ openReportDialog }: ReportActionsProps) => {
               className="w-full" 
               size="sm"
               onClick={() => openReportDialog("dpp")}
+            >
+              Generate
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-transparent border hover:border-primary/30 transition-all cursor-pointer">
+          <CardHeader className="pb-2">
+            <div className="h-10 w-10 rounded-md bg-amber-100/20 flex items-center justify-center mb-2">
+              <BarChart2 className="h-5 w-5 text-amber-500" />
+            </div>
+            <CardTitle className="text-lg">Carbon Footprint</CardTitle>
+            <CardDescription>Calculate and report on all emission scopes</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button 
+              variant="outline" 
+              className="w-full" 
+              size="sm"
+              onClick={() => openReportDialog("carbon")}
             >
               Generate
             </Button>

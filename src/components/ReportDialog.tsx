@@ -34,7 +34,7 @@ const ReportDialog = ({ open, onOpenChange, reportType }: ReportDialogProps) => 
       case "dpp":
         return "Generate a Digital Product Passport for your product line.";
       case "carbon":
-        return "Calculate and report on your organization's carbon footprint.";
+        return "Calculate and report on your organization's carbon footprint across all emission scopes.";
       default:
         return "Configure your report options below.";
     }

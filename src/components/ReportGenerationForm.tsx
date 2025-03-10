@@ -22,6 +22,10 @@ const ReportGenerationForm = ({ reportType, onClose }: ReportGenerationFormProps
     format: "pdf",
     includeCharts: true,
     includeTables: true,
+    includeScope1: true,
+    includeScope2: true,
+    includeScope3: false,
+    includeComparison: true,
   });
 
   const handleInputChange = (
@@ -142,6 +146,77 @@ const ReportGenerationForm = ({ reportType, onClose }: ReportGenerationFormProps
             </SelectContent>
           </Select>
         </div>
+      )}
+
+      {reportType === "carbon" && (
+        <Card className="border border-muted bg-muted/20">
+          <CardContent className="pt-4">
+            <h4 className="font-medium mb-2">Emission Scopes</h4>
+            <div className="grid grid-cols-2 gap-2">
+              <div className="flex items-start gap-2">
+                <input 
+                  type="checkbox" 
+                  id="includeScope1" 
+                  checked={formData.includeScope1}
+                  onChange={(e) => setFormData(prev => ({ ...prev, includeScope1: e.target.checked }))}
+                  className="mt-1" 
+                />
+                <Label htmlFor="includeScope1" className="text-sm font-normal">
+                  Scope 1 (Direct emissions)
+                </Label>
+              </div>
+              <div className="flex items-start gap-2">
+                <input 
+                  type="checkbox" 
+                  id="includeScope2" 
+                  checked={formData.includeScope2}
+                  onChange={(e) => setFormData(prev => ({ ...prev, includeScope2: e.target.checked }))}
+                  className="mt-1" 
+                />
+                <Label htmlFor="includeScope2" className="text-sm font-normal">
+                  Scope 2 (Indirect emissions from electricity)
+                </Label>
+              </div>
+              <div className="flex items-start gap-2">
+                <input 
+                  type="checkbox" 
+                  id="includeScope3" 
+                  checked={formData.includeScope3}
+                  onChange={(e) => setFormData(prev => ({ ...prev, includeScope3: e.target.checked }))}
+                  className="mt-1" 
+                />
+                <Label htmlFor="includeScope3" className="text-sm font-normal">
+                  Scope 3 (Value chain emissions)
+                </Label>
+              </div>
+              <div className="flex items-start gap-2">
+                <input 
+                  type="checkbox" 
+                  id="includeComparison" 
+                  checked={formData.includeComparison}
+                  onChange={(e) => setFormData(prev => ({ ...prev, includeComparison: e.target.checked }))}
+                  className="mt-1" 
+                />
+                <Label htmlFor="includeComparison" className="text-sm font-normal">
+                  Include year-over-year comparison
+                </Label>
+              </div>
+            </div>
+            <div className="mt-3 pt-3 border-t border-border">
+              <h4 className="font-medium mb-2">Calculation Method</h4>
+              <Select defaultValue="ghg-protocol">
+                <SelectTrigger id="calculationMethod" className="w-full">
+                  <SelectValue placeholder="Select calculation method" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="ghg-protocol">GHG Protocol</SelectItem>
+                  <SelectItem value="iso-14064">ISO 14064</SelectItem>
+                  <SelectItem value="pef">Product Environmental Footprint (PEF)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </CardContent>
+        </Card>
       )}
       
       <div className="space-y-2">
