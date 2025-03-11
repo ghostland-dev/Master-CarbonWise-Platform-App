@@ -2,51 +2,67 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { ReportData } from './types';
-import { getReportDescription, getTimeRangeText } from './pdfUtils';
 
 export const generateCarbonReport = (doc: jsPDF, data: ReportData): void => {
   let yPosition = 60;
   doc.setFontSize(14);
   doc.setTextColor(44, 62, 80);
-  doc.text('Résumé des Émissions de Carbone', 14, yPosition);
+  doc.text('Rapport d\'Empreinte Carbone', 14, yPosition);
   yPosition += 10;
   
-  doc.setFontSize(12);
-  doc.setTextColor(60, 60, 60);
-  
-  if (data.includeScope1) {
-    doc.text('• Scope 1 (Émissions directes): 128,5 tonnes CO₂e', 20, yPosition);
-    yPosition += 8;
-  }
-  
-  if (data.includeScope2) {
-    doc.text('• Scope 2 (Liées à l\'électricité): 245,3 tonnes CO₂e', 20, yPosition);
-    yPosition += 8;
-  }
-  
-  if (data.includeScope3) {
-    doc.text('• Scope 3 (Chaîne de valeur): 1 546,2 tonnes CO₂e', 20, yPosition);
-    yPosition += 8;
-  }
-  
-  yPosition += 10;
-  
-  if (data.includeComparison) {
-    // Ajouter des données de comparaison
-    doc.setFontSize(14);
+  // Ajouter les détails des scopes
+  if (data.includeScope1 || data.includeScope2 || data.includeScope3) {
+    doc.setFontSize(12);
     doc.setTextColor(44, 62, 80);
-    doc.text('Comparaison année par année', 14, yPosition);
+    doc.text('Détails des Émissions par Scope', 14, yPosition);
     yPosition += 10;
     
-    // Ajouter un tableau avec les données de comparaison
+    const scopeData = [];
+    
+    if (data.includeScope1) {
+      scopeData.push(['Scope 1 (Émissions Directes)', '450 tonnes CO₂e', 'Consommation de carburant, chauffage']);
+    }
+    
+    if (data.includeScope2) {
+      scopeData.push(['Scope 2 (Émissions Indirectes - Énergie)', '820 tonnes CO₂e', 'Électricité achetée, chauffage']);
+    }
+    
+    if (data.includeScope3) {
+      scopeData.push(['Scope 3 (Émissions Indirectes - Chaîne de Valeur)', '1250 tonnes CO₂e', 'Voyages, transport, achats']);
+    }
+    
     autoTable(doc, {
       startY: yPosition,
-      head: [['Scope d\'émission', 'Période actuelle', 'Période précédente', 'Variation']],
+      head: [['Catégorie', 'Émissions Totales', 'Sources Principales']],
+      body: scopeData,
+      theme: 'grid',
+      headStyles: { fillColor: [44, 62, 80] },
+    });
+    
+    // Mettre à jour la position Y après le tableau
+    const lastAutoTable = (doc as any).lastAutoTable;
+    if (lastAutoTable) {
+      yPosition = lastAutoTable.finalY + 15;
+    } else {
+      yPosition += 70; // Estimation si lastAutoTable n'est pas disponible
+    }
+  }
+  
+  // Ajouter une comparaison annuelle si demandée
+  if (data.includeComparison) {
+    doc.setFontSize(12);
+    doc.setTextColor(44, 62, 80);
+    doc.text('Comparaison des Émissions Annuelles', 14, yPosition);
+    yPosition += 10;
+    
+    autoTable(doc, {
+      startY: yPosition,
+      head: [['Année', 'Émissions Totales (tCO₂e)', 'Variation', 'Performance']],
       body: [
-        ['Scope 1', '128,5 tonnes', '145,3 tonnes', '-11,6%'],
-        ['Scope 2', '245,3 tonnes', '267,8 tonnes', '-8,4%'],
-        ['Scope 3', '1 546,2 tonnes', '1 678,5 tonnes', '-7,9%'],
-        ['Total', '1 920,0 tonnes', '2 091,6 tonnes', '-8,2%'],
+        ['2023', '2520', '−8.4%', 'En avance sur les objectifs'],
+        ['2022', '2750', '−5.2%', 'Dans les objectifs'],
+        ['2021', '2900', '−3.0%', 'Sous les objectifs'],
+        ['2020', '2990', '−', 'Année de référence'],
       ],
       theme: 'grid',
       headStyles: { fillColor: [44, 62, 80] },

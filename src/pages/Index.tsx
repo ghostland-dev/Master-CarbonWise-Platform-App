@@ -34,15 +34,15 @@ const Index = () => {
         <div className="container relative px-4 md:px-6 lg:px-8 z-10">
           <div className="flex flex-col items-center text-center mb-16">
             <div className="inline-flex items-center px-3 py-1 mb-6 text-sm font-medium rounded-full bg-primary/10 text-primary animate-fade-in">
-              <span>Core Features</span>
+              <span>Fonctionnalités Clés</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6 animate-slide-up">
-              Everything you need to manage your
-              <span className="text-gradient"> carbon emissions</span>
+              Tout ce dont vous avez besoin pour gérer vos
+              <span className="text-gradient"> émissions carbone</span>
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto animate-slide-up animation-delay-100">
-              Our comprehensive platform provides all the tools required to track, analyze,
-              and reduce your environmental impact effectively.
+              Notre plateforme complète fournit tous les outils nécessaires pour suivre, analyser
+              et réduire efficacement votre impact environnemental.
             </p>
           </div>
           
@@ -50,43 +50,43 @@ const Index = () => {
             <div className="animate-slide-up animation-delay-100">
               <Feature
                 icon={<LineChart size={24} />}
-                title="Emissions Tracking"
-                description="Accurately calculate and track your carbon emissions across Scopes 1, 2, and 3 with real-time monitoring and analysis."
+                title="Suivi des Émissions"
+                description="Calculez et suivez avec précision vos émissions carbone sur les Scopes 1, 2 et 3 avec une surveillance et une analyse en temps réel."
               />
             </div>
             <div className="animate-slide-up animation-delay-200">
               <Feature
                 icon={<BarChart3 size={24} />}
-                title="Data Visualization"
-                description="Transform complex data into easy-to-understand visuals with interactive dashboards and detailed reports."
+                title="Visualisation des Données"
+                description="Transformez des données complexes en visuels faciles à comprendre avec des tableaux de bord interactifs et des rapports détaillés."
               />
             </div>
             <div className="animate-slide-up animation-delay-300">
               <Feature
                 icon={<Globe size={24} />}
-                title="Reduction Planning"
-                description="Create effective carbon reduction strategies with science-based targets and actionable recommendations."
+                title="Planification de Réduction"
+                description="Créez des stratégies efficaces de réduction de carbone avec des objectifs fondés sur la science et des recommandations pratiques."
               />
             </div>
             <div className="animate-slide-up animation-delay-400">
               <Feature
                 icon={<ClipboardCheck size={24} />}
-                title="Compliance Reporting"
-                description="Generate compliance-ready reports for CSRD, GHG Protocol, and other regulatory frameworks."
+                title="Rapports de Conformité"
+                description="Générez des rapports conformes pour CSRD, le Protocole GES et d'autres cadres réglementaires."
               />
             </div>
             <div className="animate-slide-up animation-delay-500">
               <Feature
                 icon={<FileText size={24} />}
-                title="ESG Integration"
-                description="Seamlessly integrate environmental data into your ESG reporting for comprehensive sustainability management."
+                title="Intégration ESG"
+                description="Intégrez parfaitement les données environnementales dans vos rapports ESG pour une gestion complète de la durabilité."
               />
             </div>
             <div className="animate-slide-up animation-delay-600">
               <Feature
                 icon={<Building2 size={24} />}
-                title="Supply Chain Analysis"
-                description="Extend your sustainability efforts to your entire supply chain with detailed scope 3 emissions tracking."
+                title="Analyse de la Chaîne d'Approvisionnement"
+                description="Étendez vos efforts de durabilité à l'ensemble de votre chaîne d'approvisionnement avec un suivi détaillé des émissions de scope 3."
               />
             </div>
           </div>
@@ -102,14 +102,14 @@ const Index = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <div className="p-8 md:p-12 flex flex-col justify-center">
                 <div className="inline-flex items-center px-3 py-1 mb-6 text-sm font-medium rounded-full bg-primary/10 text-primary">
-                  <span>Start Today</span>
+                  <span>Commencez Aujourd'hui</span>
                 </div>
                 <h2 className="text-3xl font-bold tracking-tight mb-4">
-                  Ready to reduce your environmental impact?
+                  Prêt à réduire votre impact environnemental ?
                 </h2>
                 <p className="text-lg text-muted-foreground mb-8">
-                  Join thousands of companies using CarbonWise to track, manage, and reduce
-                  their carbon footprint. Get started in minutes.
+                  Rejoignez des milliers d'entreprises qui utilisent CarbonWise pour suivre, gérer et réduire
+                  leur empreinte carbone. Commencez en quelques minutes.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button 
@@ -117,11 +117,11 @@ const Index = () => {
                     className="bg-gradient-to-r from-teal-400 to-blue-500 hover:from-teal-500 hover:to-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
                     onClick={() => navigate("/dashboard")}
                   >
-                    Start Free Trial
+                    Essai Gratuit
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                   <Button variant="outline" size="lg">
-                    Book a Demo
+                    Réserver une Démo
                   </Button>
                 </div>
               </div>
@@ -171,8 +171,8 @@ const Index = () => {
                 <span>CarbonWise</span>
               </div>
               <p className="text-muted-foreground max-w-xs mb-6">
-                Helping businesses measure, manage, and reduce their environmental impact through
-                data-driven insights and actionable solutions.
+                Aider les entreprises à mesurer, gérer et réduire leur impact environnemental grâce à
+                des insights basés sur les données et des solutions concrètes.
               </p>
               <div className="flex items-center gap-4 text-muted-foreground">
                 <a href="#" className="hover:text-primary transition-colors">
@@ -193,31 +193,31 @@ const Index = () => {
               </div>
             </div>
             <div>
-              <h3 className="font-medium text-foreground mb-4">Product</h3>
+              <h3 className="font-medium text-foreground mb-4">Produit</h3>
               <ul className="space-y-2 text-sm">
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Features</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Pricing</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Integrations</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Case Studies</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Fonctionnalités</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Tarifs</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Intégrations</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Études de Cas</a></li>
               </ul>
             </div>
             <div>
-              <h3 className="font-medium text-foreground mb-4">Company</h3>
+              <h3 className="font-medium text-foreground mb-4">Entreprise</h3>
               <ul className="space-y-2 text-sm">
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">About</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">À Propos</a></li>
                 <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Blog</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Careers</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Carrières</a></li>
                 <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Contact</a></li>
               </ul>
             </div>
           </div>
           <div className="border-t border-border mt-10 pt-10 flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-muted-foreground">
-              © 2023 CarbonWise. All rights reserved.
+              © 2023 CarbonWise. Tous droits réservés.
             </p>
             <div className="flex items-center gap-4 text-sm">
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Terms</a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Privacy</a>
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Conditions</a>
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Confidentialité</a>
               <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Cookies</a>
             </div>
           </div>
