@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -63,16 +64,16 @@ const ReportGenerationForm = ({ reportType, onClose, onPdfGenerated }: ReportGen
         }
         
         toast({
-          title: "PDF Report Generated",
-          description: `Your ${getReportTypeName(reportType)} has been generated successfully.`,
+          title: "Rapport PDF Généré",
+          description: `Votre ${getReportTypeName(reportType)} a été généré avec succès.`,
         });
         
         setIsLoading(false);
       } catch (error) {
-        console.error("Error generating PDF:", error);
+        console.error("Erreur lors de la génération du PDF:", error);
         toast({
-          title: "Error generating PDF",
-          description: "There was an error generating your PDF report. Please try again.",
+          title: "Erreur de génération du PDF",
+          description: "Une erreur s'est produite lors de la génération de votre rapport PDF. Veuillez réessayer.",
           variant: "destructive",
         });
         setIsLoading(false);
@@ -81,8 +82,8 @@ const ReportGenerationForm = ({ reportType, onClose, onPdfGenerated }: ReportGen
       setTimeout(() => {
         setIsLoading(false);
         toast({
-          title: "Report scheduled for generation",
-          description: `Your ${getReportTypeName(reportType)} will be ready shortly.`,
+          title: "Rapport planifié pour génération",
+          description: `Votre ${getReportTypeName(reportType)} sera prêt sous peu.`,
         });
         if (onClose) onClose();
       }, 1500);
@@ -92,24 +93,24 @@ const ReportGenerationForm = ({ reportType, onClose, onPdfGenerated }: ReportGen
   const getReportTypeName = (type: string) => {
     switch (type) {
       case "csrd":
-        return "CSRD Compliance Report";
+        return "Rapport de Conformité CSRD";
       case "custom":
-        return "Custom Sustainability Report";
+        return "Rapport de Durabilité Personnalisé";
       case "dpp":
-        return "Digital Product Passport";
+        return "Passeport Produit Numérique";
       case "carbon":
-        return "Carbon Footprint Report";
+        return "Rapport d'Empreinte Carbone";
       default:
-        return "Report";
+        return "Rapport";
     }
   };
 
-  const suggestedReportName = `${getReportTypeName(reportType)} - ${new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}`;
+  const suggestedReportName = `${getReportTypeName(reportType)} - ${new Date().toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' })}`;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="reportName">Report Name</Label>
+        <Label htmlFor="reportName">Nom du Rapport</Label>
         <Input
           id="reportName"
           name="reportName"
@@ -120,22 +121,22 @@ const ReportGenerationForm = ({ reportType, onClose, onPdfGenerated }: ReportGen
       </div>
       
       <div className="space-y-2">
-        <Label htmlFor="dateRange">Time Period</Label>
+        <Label htmlFor="dateRange">Période</Label>
         <Select
           value={formData.dateRange}
           onValueChange={(value) => handleSelectChange("dateRange", value)}
         >
           <SelectTrigger id="dateRange" className="w-full">
-            <SelectValue placeholder="Select time period" />
+            <SelectValue placeholder="Sélectionner une période" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="current-month">Current Month</SelectItem>
-            <SelectItem value="last-month">Last Month</SelectItem>
-            <SelectItem value="current-quarter">Current Quarter</SelectItem>
-            <SelectItem value="last-quarter">Last Quarter</SelectItem>
-            <SelectItem value="ytd">Year to Date</SelectItem>
-            <SelectItem value="last-year">Last Year</SelectItem>
-            <SelectItem value="custom">Custom Range</SelectItem>
+            <SelectItem value="current-month">Mois en cours</SelectItem>
+            <SelectItem value="last-month">Mois dernier</SelectItem>
+            <SelectItem value="current-quarter">Trimestre en cours</SelectItem>
+            <SelectItem value="last-quarter">Trimestre dernier</SelectItem>
+            <SelectItem value="ytd">Depuis le début de l'année</SelectItem>
+            <SelectItem value="last-year">Année dernière</SelectItem>
+            <SelectItem value="custom">Période personnalisée</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -143,23 +144,23 @@ const ReportGenerationForm = ({ reportType, onClose, onPdfGenerated }: ReportGen
       {reportType === "csrd" && (
         <Card className="border border-muted bg-muted/20">
           <CardContent className="pt-4">
-            <h4 className="font-medium mb-2">CSRD Requirements</h4>
+            <h4 className="font-medium mb-2">Exigences CSRD</h4>
             <div className="grid grid-cols-2 gap-2">
               <div className="flex items-start gap-2">
                 <input type="checkbox" id="doubleMateriality" defaultChecked className="mt-1" />
-                <Label htmlFor="doubleMateriality" className="text-sm font-normal">Include double materiality assessment</Label>
+                <Label htmlFor="doubleMateriality" className="text-sm font-normal">Inclure l'évaluation de double matérialité</Label>
               </div>
               <div className="flex items-start gap-2">
                 <input type="checkbox" id="valuechainEmissions" defaultChecked className="mt-1" />
-                <Label htmlFor="valuechainEmissions" className="text-sm font-normal">Value chain emissions (Scope 3)</Label>
+                <Label htmlFor="valuechainEmissions" className="text-sm font-normal">Émissions de la chaîne de valeur (Scope 3)</Label>
               </div>
               <div className="flex items-start gap-2">
                 <input type="checkbox" id="transitionPlans" defaultChecked className="mt-1" />
-                <Label htmlFor="transitionPlans" className="text-sm font-normal">Climate transition plans</Label>
+                <Label htmlFor="transitionPlans" className="text-sm font-normal">Plans de transition climatique</Label>
               </div>
               <div className="flex items-start gap-2">
                 <input type="checkbox" id="biodiversity" className="mt-1" />
-                <Label htmlFor="biodiversity" className="text-sm font-normal">Biodiversity impact</Label>
+                <Label htmlFor="biodiversity" className="text-sm font-normal">Impact sur la biodiversité</Label>
               </div>
             </div>
           </CardContent>
@@ -168,16 +169,16 @@ const ReportGenerationForm = ({ reportType, onClose, onPdfGenerated }: ReportGen
 
       {reportType === "dpp" && (
         <div className="space-y-2">
-          <Label htmlFor="productLine">Product Line</Label>
+          <Label htmlFor="productLine">Gamme de Produits</Label>
           <Select defaultValue="eco-friendly">
             <SelectTrigger id="productLine" className="w-full">
-              <SelectValue placeholder="Select product line" />
+              <SelectValue placeholder="Sélectionner une gamme de produits" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="eco-friendly">EcoFriendly Series</SelectItem>
-              <SelectItem value="sustainable">Sustainable Collection</SelectItem>
-              <SelectItem value="circular">Circular Products</SelectItem>
-              <SelectItem value="new">New Product Line</SelectItem>
+              <SelectItem value="eco-friendly">Série ÉcoResponsable</SelectItem>
+              <SelectItem value="sustainable">Collection Durable</SelectItem>
+              <SelectItem value="circular">Produits Circulaires</SelectItem>
+              <SelectItem value="new">Nouvelle Gamme de Produits</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -186,7 +187,7 @@ const ReportGenerationForm = ({ reportType, onClose, onPdfGenerated }: ReportGen
       {reportType === "carbon" && (
         <Card className="border border-muted bg-muted/20">
           <CardContent className="pt-4">
-            <h4 className="font-medium mb-2">Emission Scopes</h4>
+            <h4 className="font-medium mb-2">Scopes d'Émissions</h4>
             <div className="grid grid-cols-2 gap-2">
               <div className="flex items-start gap-2">
                 <input 
@@ -197,7 +198,7 @@ const ReportGenerationForm = ({ reportType, onClose, onPdfGenerated }: ReportGen
                   className="mt-1" 
                 />
                 <Label htmlFor="includeScope1" className="text-sm font-normal">
-                  Scope 1 (Direct emissions)
+                  Scope 1 (Émissions directes)
                 </Label>
               </div>
               <div className="flex items-start gap-2">
@@ -209,7 +210,7 @@ const ReportGenerationForm = ({ reportType, onClose, onPdfGenerated }: ReportGen
                   className="mt-1" 
                 />
                 <Label htmlFor="includeScope2" className="text-sm font-normal">
-                  Scope 2 (Indirect emissions from electricity)
+                  Scope 2 (Émissions indirectes de l'électricité)
                 </Label>
               </div>
               <div className="flex items-start gap-2">
@@ -221,7 +222,7 @@ const ReportGenerationForm = ({ reportType, onClose, onPdfGenerated }: ReportGen
                   className="mt-1" 
                 />
                 <Label htmlFor="includeScope3" className="text-sm font-normal">
-                  Scope 3 (Value chain emissions)
+                  Scope 3 (Émissions de la chaîne de valeur)
                 </Label>
               </div>
               <div className="flex items-start gap-2">
@@ -233,20 +234,20 @@ const ReportGenerationForm = ({ reportType, onClose, onPdfGenerated }: ReportGen
                   className="mt-1" 
                 />
                 <Label htmlFor="includeComparison" className="text-sm font-normal">
-                  Include year-over-year comparison
+                  Inclure une comparaison année par année
                 </Label>
               </div>
             </div>
             <div className="mt-3 pt-3 border-t border-border">
-              <h4 className="font-medium mb-2">Calculation Method</h4>
+              <h4 className="font-medium mb-2">Méthode de Calcul</h4>
               <Select defaultValue="ghg-protocol">
                 <SelectTrigger id="calculationMethod" className="w-full">
-                  <SelectValue placeholder="Select calculation method" />
+                  <SelectValue placeholder="Sélectionner une méthode de calcul" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="ghg-protocol">GHG Protocol</SelectItem>
+                  <SelectItem value="ghg-protocol">Protocole GES</SelectItem>
                   <SelectItem value="iso-14064">ISO 14064</SelectItem>
-                  <SelectItem value="pef">Product Environmental Footprint (PEF)</SelectItem>
+                  <SelectItem value="pef">Empreinte Environnementale des Produits (PEF)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -255,19 +256,19 @@ const ReportGenerationForm = ({ reportType, onClose, onPdfGenerated }: ReportGen
       )}
       
       <div className="space-y-2">
-        <Label htmlFor="format">Export Format</Label>
+        <Label htmlFor="format">Format d'Exportation</Label>
         <Select
           value={formData.format}
           onValueChange={(value) => handleSelectChange("format", value)}
         >
           <SelectTrigger id="format" className="w-full">
-            <SelectValue placeholder="Select format" />
+            <SelectValue placeholder="Sélectionner un format" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="pdf">PDF Report</SelectItem>
-            <SelectItem value="excel">Excel Spreadsheet</SelectItem>
-            <SelectItem value="csv">CSV Data Export</SelectItem>
-            <SelectItem value="interactive">Interactive Dashboard</SelectItem>
+            <SelectItem value="pdf">Rapport PDF</SelectItem>
+            <SelectItem value="excel">Feuille de calcul Excel</SelectItem>
+            <SelectItem value="csv">Export de données CSV</SelectItem>
+            <SelectItem value="interactive">Tableau de bord interactif</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -281,7 +282,7 @@ const ReportGenerationForm = ({ reportType, onClose, onPdfGenerated }: ReportGen
             onChange={(e) => setFormData(prev => ({ ...prev, includeCharts: e.target.checked }))}
             className="mt-1" 
           />
-          <Label htmlFor="includeCharts" className="text-sm font-normal">Include charts and visualizations</Label>
+          <Label htmlFor="includeCharts" className="text-sm font-normal">Inclure des graphiques et visualisations</Label>
         </div>
         <div className="flex items-start gap-2">
           <input 
@@ -291,18 +292,18 @@ const ReportGenerationForm = ({ reportType, onClose, onPdfGenerated }: ReportGen
             onChange={(e) => setFormData(prev => ({ ...prev, includeTables: e.target.checked }))}
             className="mt-1" 
           />
-          <Label htmlFor="includeTables" className="text-sm font-normal">Include detailed data tables</Label>
+          <Label htmlFor="includeTables" className="text-sm font-normal">Inclure des tableaux de données détaillés</Label>
         </div>
       </div>
 
       <div className="flex justify-end space-x-2 pt-4">
         {onClose && (
           <Button type="button" variant="outline" onClick={onClose}>
-            Cancel
+            Annuler
           </Button>
         )}
         <Button type="submit" disabled={isLoading}>
-          {isLoading ? "Generating..." : "Generate Report"}
+          {isLoading ? "Génération en cours..." : "Générer le rapport"}
         </Button>
       </div>
     </form>

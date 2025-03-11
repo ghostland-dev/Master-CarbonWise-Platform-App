@@ -19,38 +19,38 @@ const ReportDialog = ({ open, onOpenChange, reportType }: ReportDialogProps) => 
   const getReportTitle = (type: string) => {
     switch (type) {
       case "csrd":
-        return "Generate CSRD Report";
+        return "Générer un Rapport CSRD";
       case "custom":
-        return "Create Custom Report";
+        return "Créer un Rapport Personnalisé";
       case "dpp":
-        return "Create Digital Product Passport";
+        return "Créer un Passeport Produit Numérique";
       case "carbon":
-        return "Generate Carbon Footprint Report";
+        return "Générer un Rapport d'Empreinte Carbone";
       default:
-        return "Generate Report";
+        return "Générer un Rapport";
     }
   };
 
   const getReportDescription = (type: string) => {
     switch (type) {
       case "csrd":
-        return "Create a compliant report for Corporate Sustainability Reporting Directive.";
+        return "Créer un rapport conforme à la Directive sur la Publication d'Informations en matière de Durabilité des Entreprises.";
       case "custom":
-        return "Build a custom report with the metrics and data you need.";
+        return "Construire un rapport personnalisé avec les métriques et données dont vous avez besoin.";
       case "dpp":
-        return "Generate a Digital Product Passport for your product line.";
+        return "Générer un Passeport Produit Numérique pour votre gamme de produits.";
       case "carbon":
-        return "Calculate and report on your organization's carbon footprint across all emission scopes.";
+        return "Calculer et rapporter l'empreinte carbone de votre organisation sur tous les scopes d'émissions.";
       default:
-        return "Configure your report options below.";
+        return "Configurez les options de votre rapport ci-dessous.";
     }
   };
 
   const handlePdfGenerated = (pdfUrl: string) => {
     setGeneratedPdfUrl(pdfUrl);
     toast({
-      title: "PDF Report Generated",
-      description: "Your report has been generated successfully."
+      title: "Rapport PDF Généré",
+      description: "Votre rapport a été généré avec succès."
     });
   };
 
@@ -76,8 +76,8 @@ const ReportDialog = ({ open, onOpenChange, reportType }: ReportDialogProps) => 
       document.body.removeChild(link);
       
       toast({
-        title: "Download Started",
-        description: "Your PDF report is being downloaded."
+        title: "Téléchargement Démarré",
+        description: "Votre rapport PDF est en cours de téléchargement."
       });
     }
   };
@@ -96,7 +96,7 @@ const ReportDialog = ({ open, onOpenChange, reportType }: ReportDialogProps) => 
               <iframe 
                 src={generatedPdfUrl} 
                 className="w-full h-full" 
-                title="PDF Preview"
+                title="Aperçu PDF"
               />
             </div>
             
@@ -107,14 +107,14 @@ const ReportDialog = ({ open, onOpenChange, reportType }: ReportDialogProps) => 
                 className="gap-1"
               >
                 <X className="h-4 w-4" />
-                Close
+                Fermer
               </Button>
               <Button 
                 onClick={downloadPdf}
                 className="gap-1"
               >
                 <Download className="h-4 w-4" />
-                Download PDF
+                Télécharger PDF
               </Button>
             </div>
           </div>

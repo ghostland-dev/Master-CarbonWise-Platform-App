@@ -7,18 +7,18 @@ export const generateCsrdReport = (doc: jsPDF, data: ReportData): void => {
   let yPosition = 60;
   doc.setFontSize(14);
   doc.setTextColor(44, 62, 80);
-  doc.text('CSRD Compliance Summary', 14, yPosition);
+  doc.text('Résumé de Conformité CSRD', 14, yPosition);
   yPosition += 10;
   
-  // Add sample CSRD compliance table
+  // Ajouter un tableau de conformité CSRD
   autoTable(doc, {
     startY: yPosition,
-    head: [['Requirement', 'Status', 'Notes']],
+    head: [['Exigence', 'Statut', 'Notes']],
     body: [
-      ['Double Materiality Assessment', 'Compliant', 'Assessment completed Q2 2023'],
-      ['Value Chain Emissions', 'Partially Compliant', 'Scope 3 data collection ongoing'],
-      ['Climate Transition Plans', 'Compliant', '2030 targets established'],
-      ['Biodiversity Impact', 'In Progress', 'Assessment scheduled for Q3 2023'],
+      ['Évaluation de Double Matérialité', 'Conforme', 'Évaluation complétée T2 2023'],
+      ['Émissions de la Chaîne de Valeur', 'Partiellement Conforme', 'Collecte de données Scope 3 en cours'],
+      ['Plans de Transition Climatique', 'Conforme', 'Objectifs 2030 établis'],
+      ['Impact sur la Biodiversité', 'En cours', 'Évaluation prévue pour T3 2023'],
     ],
     theme: 'grid',
     headStyles: { fillColor: [44, 62, 80] },

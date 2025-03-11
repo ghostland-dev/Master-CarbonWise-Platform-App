@@ -8,59 +8,59 @@ const ExportOptions = () => {
 
   return (
     <div className="glass-card p-6 animate-slide-in-right animation-delay-200">
-      <h3 className="font-medium mb-4">Export Options</h3>
+      <h3 className="font-medium mb-4">Options d'Exportation</h3>
       <div className="space-y-3">
         <Button 
           variant="outline" 
           className="w-full justify-start"
           onClick={() => {
             toast({
-              title: "PDF Export",
-              description: "PDF export template selected"
+              title: "Export PDF",
+              description: "Modèle d'export PDF sélectionné"
             });
           }}
         >
           <FileText className="h-4 w-4 mr-2" />
-          PDF Report
+          Rapport PDF
         </Button>
         <Button 
           variant="outline" 
           className="w-full justify-start"
           onClick={() => {
             toast({
-              title: "Excel Export",
-              description: "Excel export template selected"
+              title: "Export Excel",
+              description: "Modèle d'export Excel sélectionné"
             });
           }}
         >
           <FileSpreadsheet className="h-4 w-4 mr-2" />
-          Excel Spreadsheet
+          Feuille de calcul Excel
         </Button>
         <Button 
           variant="outline" 
           className="w-full justify-start"
           onClick={() => {
             toast({
-              title: "CSV Export", 
-              description: "CSV export template selected"
+              title: "Export CSV", 
+              description: "Modèle d'export CSV sélectionné"
             });
           }}
         >
           <Database className="h-4 w-4 mr-2" />
-          CSV Data Export
+          Export de données CSV
         </Button>
         <Button 
           variant="outline" 
           className="w-full justify-start"
           onClick={() => {
             toast({
-              title: "Interactive Dashboard",
-              description: "Interactive dashboard template selected"
+              title: "Tableau de bord interactif",
+              description: "Modèle de tableau de bord interactif sélectionné"
             });
           }}
         >
           <BarChart className="h-4 w-4 mr-2" />
-          Interactive Dashboard
+          Tableau de bord interactif
         </Button>
       </div>
     </div>

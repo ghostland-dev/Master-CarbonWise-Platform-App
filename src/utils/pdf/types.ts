@@ -1,5 +1,5 @@
 
-// Define shared types for PDF generation
+// Définir les types partagés pour la génération de PDF
 import jsPDF from 'jspdf';
 
 export interface ReportData {
@@ -15,5 +15,5 @@ export interface ReportData {
 }
 
 export interface PdfDocument extends jsPDF {
-  // Add any custom extensions to the jsPDF type if needed
+  // Ajouter des extensions personnalisées au type jsPDF si nécessaire
 }

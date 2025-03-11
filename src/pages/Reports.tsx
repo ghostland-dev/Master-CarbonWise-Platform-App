@@ -21,15 +21,15 @@ const Reports = () => {
 
   const handleDownload = (reportName: string) => {
     toast({
-      title: "Download started",
-      description: `Downloading ${reportName}...`
+      title: "Téléchargement démarré",
+      description: `Téléchargement de ${reportName}...`
     });
   };
 
   const handleShare = (reportName: string) => {
     toast({
-      title: "Share report",
-      description: `Link to ${reportName} copied to clipboard`
+      title: "Partager le rapport",
+      description: `Lien vers ${reportName} copié dans le presse-papiers`
     });
   };
 
@@ -39,9 +39,9 @@ const Reports = () => {
       
       <main className="container px-4 md:px-6 lg:px-8 pt-24 pb-16">
         <div className="mb-8 pt-4">
-          <h1 className="text-3xl font-bold tracking-tight animate-slide-down">Reports</h1>
+          <h1 className="text-3xl font-bold tracking-tight animate-slide-down">Rapports</h1>
           <p className="text-muted-foreground mt-1 animate-slide-down animation-delay-100">
-            Generate, customize, and export compliance and sustainability reports
+            Générer, personnaliser et exporter des rapports de conformité et de durabilité
           </p>
         </div>
 
