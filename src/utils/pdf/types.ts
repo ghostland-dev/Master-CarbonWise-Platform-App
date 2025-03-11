@@ -1,5 +1,6 @@
 
 // Define shared types for PDF generation
+import jsPDF from 'jspdf';
 
 export interface ReportData {
   reportName: string;
