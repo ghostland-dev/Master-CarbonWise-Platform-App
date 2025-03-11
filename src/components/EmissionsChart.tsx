@@ -13,22 +13,22 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, TabletSmartphone, Truck } from "lucide-react";
 
-// Sample data - would be replaced with real data from API
+// Données d'exemple - seraient remplacées par des données réelles de l'API
 const generateData = () => {
   const data = [];
   const months = [
     "Jan",
-    "Feb",
+    "Fév",
     "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
+    "Avr",
+    "Mai",
+    "Juin",
+    "Juil",
+    "Août",
     "Sep",
     "Oct",
     "Nov",
-    "Dec",
+    "Déc",
   ];
 
   for (let i = 0; i < 12; i++) {
@@ -73,7 +73,7 @@ const EmissionsChart = () => {
   );
 
   useEffect(() => {
-    // Simulate API call
+    // Simuler l'appel API
     const timer = setTimeout(() => {
       setData(generateData());
       setIsLoading(false);
@@ -93,10 +93,10 @@ const EmissionsChart = () => {
       <CardHeader className="flex flex-row items-center justify-between">
         <div>
           <CardTitle className="text-xl font-semibold">
-            Carbon Emissions Trend
+            Tendance des Émissions Carbone
           </CardTitle>
           <p className="text-sm text-muted-foreground mt-1">
-            Monthly breakdown by emission category
+            Répartition mensuelle par catégorie d'émission
           </p>
         </div>
         <div className="flex items-center space-x-2 bg-muted/50 p-1 rounded-lg">
@@ -208,7 +208,7 @@ const EmissionsChart = () => {
                 <Area
                   type="monotone"
                   dataKey="scope3"
-                  name="Scope 3 (Value Chain)"
+                  name="Scope 3 (Chaîne de Valeur)"
                   stroke={COLORS.scope3}
                   fillOpacity={1}
                   fill="url(#scope3)"

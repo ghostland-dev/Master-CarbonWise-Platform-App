@@ -14,11 +14,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, Download, Search } from "lucide-react";
 
-// Sample data for the table
+// Données d'exemple pour le tableau
 const emissionSources = [
   {
     id: 1,
-    source: "Electricity Consumption",
+    source: "Consommation d'Électricité",
     category: "Scope 2",
     emissions: 65.4,
     unit: "tCO₂e",
@@ -27,7 +27,7 @@ const emissionSources = [
   },
   {
     id: 2,
-    source: "Company Vehicles",
+    source: "Véhicules de l'Entreprise",
     category: "Scope 1",
     emissions: 42.8,
     unit: "tCO₂e",
@@ -36,7 +36,7 @@ const emissionSources = [
   },
   {
     id: 3,
-    source: "Business Travel",
+    source: "Voyages d'Affaires",
     category: "Scope 3",
     emissions: 28.9,
     unit: "tCO₂e",
@@ -45,7 +45,7 @@ const emissionSources = [
   },
   {
     id: 4,
-    source: "Purchased Goods",
+    source: "Biens Achetés",
     category: "Scope 3",
     emissions: 112.6,
     unit: "tCO₂e",
@@ -54,7 +54,7 @@ const emissionSources = [
   },
   {
     id: 5,
-    source: "Waste Generated",
+    source: "Déchets Générés",
     category: "Scope 3",
     emissions: 18.2,
     unit: "tCO₂e",
@@ -63,7 +63,7 @@ const emissionSources = [
   },
   {
     id: 6,
-    source: "Natural Gas Heating",
+    source: "Chauffage au Gaz Naturel",
     category: "Scope 1",
     emissions: 37.5,
     unit: "tCO₂e",
@@ -97,9 +97,9 @@ const EmissionsTable = () => {
       <CardHeader className="px-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <CardTitle className="text-xl font-semibold">Emission Sources</CardTitle>
+            <CardTitle className="text-xl font-semibold">Sources d'Émissions</CardTitle>
             <p className="text-sm text-muted-foreground mt-1">
-              Breakdown of all emission sources by category
+              Répartition de toutes les sources d'émissions par catégorie
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -107,7 +107,7 @@ const EmissionsTable = () => {
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
-                placeholder="Search sources..."
+                placeholder="Rechercher des sources..."
                 className="pl-8 w-full md:w-[250px]"
                 value={searchTerm}
                 onChange={handleSearch}
@@ -115,7 +115,7 @@ const EmissionsTable = () => {
             </div>
             <Button variant="outline" size="sm" className="gap-1">
               <Download className="h-4 w-4" />
-              <span className="hidden md:inline">Export</span>
+              <span className="hidden md:inline">Exporter</span>
             </Button>
           </div>
         </div>
@@ -126,9 +126,9 @@ const EmissionsTable = () => {
             <TableHeader>
               <TableRow className="hover:bg-transparent">
                 <TableHead className="pl-6">Source</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead className="text-right">Emissions</TableHead>
-                <TableHead className="text-right pr-6">Change</TableHead>
+                <TableHead>Catégorie</TableHead>
+                <TableHead className="text-right">Émissions</TableHead>
+                <TableHead className="text-right pr-6">Évolution</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -181,7 +181,7 @@ const EmissionsTable = () => {
               ) : (
                 <TableRow>
                   <TableCell colSpan={4} className="text-center py-6 text-muted-foreground">
-                    No emission sources found matching your search.
+                    Aucune source d'émission ne correspond à votre recherche.
                   </TableCell>
                 </TableRow>
               )}
@@ -191,11 +191,11 @@ const EmissionsTable = () => {
         
         <div className="flex items-center justify-between px-6 py-4">
           <div className="text-sm text-muted-foreground">
-            Showing <span className="font-medium">{filteredData.length}</span> of{" "}
+            Affichage de <span className="font-medium">{filteredData.length}</span> sur{" "}
             <span className="font-medium">{emissionSources.length}</span> sources
           </div>
           <Button variant="outline" size="sm" className="gap-1">
-            <span>View All</span>
+            <span>Voir Tout</span>
             <ChevronDown className="h-4 w-4" />
           </Button>
         </div>
