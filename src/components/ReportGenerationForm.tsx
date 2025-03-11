@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,13 +6,15 @@ import { Calendar } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { generatePDF } from "@/utils/pdfGenerator";
 
 interface ReportGenerationFormProps {
   reportType: string;
   onClose?: () => void;
+  onPdfGenerated?: (pdfUrl: string) => void;
 }
 
-const ReportGenerationForm = ({ reportType, onClose }: ReportGenerationFormProps) => {
+const ReportGenerationForm = ({ reportType, onClose, onPdfGenerated }: ReportGenerationFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const [formData, setFormData] = useState({
@@ -43,15 +44,49 @@ const ReportGenerationForm = ({ reportType, onClose }: ReportGenerationFormProps
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulate report generation
-    setTimeout(() => {
-      setIsLoading(false);
-      toast({
-        title: "Report scheduled for generation",
-        description: `Your ${getReportTypeName(reportType)} will be ready shortly.`,
-      });
-      if (onClose) onClose();
-    }, 1500);
+    if (formData.format === "pdf") {
+      try {
+        const pdfUrl = generatePDF({
+          reportName: formData.reportName,
+          reportType,
+          dateRange: formData.dateRange,
+          includeCharts: formData.includeCharts,
+          includeTables: formData.includeTables,
+          includeScope1: formData.includeScope1,
+          includeScope2: formData.includeScope2,
+          includeScope3: formData.includeScope3,
+          includeComparison: formData.includeComparison,
+        });
+        
+        if (onPdfGenerated) {
+          onPdfGenerated(pdfUrl);
+        }
+        
+        toast({
+          title: "PDF Report Generated",
+          description: `Your ${getReportTypeName(reportType)} has been generated successfully.`,
+        });
+        
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error generating PDF:", error);
+        toast({
+          title: "Error generating PDF",
+          description: "There was an error generating your PDF report. Please try again.",
+          variant: "destructive",
+        });
+        setIsLoading(false);
+      }
+    } else {
+      setTimeout(() => {
+        setIsLoading(false);
+        toast({
+          title: "Report scheduled for generation",
+          description: `Your ${getReportTypeName(reportType)} will be ready shortly.`,
+        });
+        if (onClose) onClose();
+      }, 1500);
+    }
   };
 
   const getReportTypeName = (type: string) => {

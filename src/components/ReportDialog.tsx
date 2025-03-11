@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import ReportGenerationForm from "./ReportGenerationForm";
 
@@ -10,6 +10,8 @@ interface ReportDialogProps {
 }
 
 const ReportDialog = ({ open, onOpenChange, reportType }: ReportDialogProps) => {
+  const [generatedPdfUrl, setGeneratedPdfUrl] = useState<string | null>(null);
+
   const getReportTitle = (type: string) => {
     switch (type) {
       case "csrd":
@@ -40,17 +42,73 @@ const ReportDialog = ({ open, onOpenChange, reportType }: ReportDialogProps) => 
     }
   };
 
+  const handlePdfGenerated = (pdfUrl: string) => {
+    setGeneratedPdfUrl(pdfUrl);
+  };
+
+  const handleClose = () => {
+    setGeneratedPdfUrl(null);
+    onOpenChange(false);
+  };
+
+  const handleDialogOpenChange = (open: boolean) => {
+    if (!open) {
+      setGeneratedPdfUrl(null);
+    }
+    onOpenChange(open);
+  };
+
+  const downloadPdf = () => {
+    if (generatedPdfUrl) {
+      const link = document.createElement('a');
+      link.href = generatedPdfUrl;
+      link.download = `${getReportTitle(reportType).replace(/\s+/g, '-').toLowerCase()}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px]">
+    <Dialog open={open} onOpenChange={handleDialogOpenChange}>
+      <DialogContent className={`sm:max-w-[${generatedPdfUrl ? '800px' : '600px'}]`}>
         <DialogHeader>
           <DialogTitle>{getReportTitle(reportType)}</DialogTitle>
           <DialogDescription>{getReportDescription(reportType)}</DialogDescription>
         </DialogHeader>
-        <ReportGenerationForm 
-          reportType={reportType} 
-          onClose={() => onOpenChange(false)} 
-        />
+        
+        {generatedPdfUrl ? (
+          <div className="space-y-4">
+            <div className="border rounded-md overflow-hidden h-[70vh]">
+              <iframe 
+                src={generatedPdfUrl} 
+                className="w-full h-full" 
+                title="PDF Preview"
+              />
+            </div>
+            
+            <div className="flex justify-end space-x-2">
+              <button 
+                className="px-4 py-2 rounded-md bg-primary text-white"
+                onClick={downloadPdf}
+              >
+                Download PDF
+              </button>
+              <button 
+                className="px-4 py-2 rounded-md border border-input bg-background"
+                onClick={handleClose}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        ) : (
+          <ReportGenerationForm 
+            reportType={reportType} 
+            onClose={() => onOpenChange(false)}
+            onPdfGenerated={handlePdfGenerated}
+          />
+        )}
       </DialogContent>
     </Dialog>
   );
