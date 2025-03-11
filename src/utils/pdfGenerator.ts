@@ -1,4 +1,3 @@
-
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { format } from 'date-fns';
@@ -195,7 +194,7 @@ export const generatePDF = (data: ReportData): string => {
   }
   
   // Add footer with page numbers
-  const totalPages = doc.internal.getNumberOfPages();
+  const totalPages = doc.getNumberOfPages();
   
   for (let i = 1; i <= totalPages; i++) {
     doc.setPage(i);
