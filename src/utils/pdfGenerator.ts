@@ -196,6 +196,7 @@ export const generatePDF = (data: ReportData): string => {
   
   // Add footer with page numbers
   const totalPages = doc.internal.getNumberOfPages();
+  
   for (let i = 1; i <= totalPages; i++) {
     doc.setPage(i);
     doc.setFontSize(10);

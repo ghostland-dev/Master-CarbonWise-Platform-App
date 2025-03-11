@@ -1,7 +1,10 @@
 
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Download, X } from "lucide-react";
 import ReportGenerationForm from "./ReportGenerationForm";
+import { useToast } from "@/hooks/use-toast";
 
 interface ReportDialogProps {
   open: boolean;
@@ -11,6 +14,7 @@ interface ReportDialogProps {
 
 const ReportDialog = ({ open, onOpenChange, reportType }: ReportDialogProps) => {
   const [generatedPdfUrl, setGeneratedPdfUrl] = useState<string | null>(null);
+  const { toast } = useToast();
 
   const getReportTitle = (type: string) => {
     switch (type) {
@@ -44,6 +48,10 @@ const ReportDialog = ({ open, onOpenChange, reportType }: ReportDialogProps) => 
 
   const handlePdfGenerated = (pdfUrl: string) => {
     setGeneratedPdfUrl(pdfUrl);
+    toast({
+      title: "PDF Report Generated",
+      description: "Your report has been generated successfully."
+    });
   };
 
   const handleClose = () => {
@@ -66,6 +74,11 @@ const ReportDialog = ({ open, onOpenChange, reportType }: ReportDialogProps) => 
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      
+      toast({
+        title: "Download Started",
+        description: "Your PDF report is being downloaded."
+      });
     }
   };
 
@@ -88,18 +101,21 @@ const ReportDialog = ({ open, onOpenChange, reportType }: ReportDialogProps) => 
             </div>
             
             <div className="flex justify-end space-x-2">
-              <button 
-                className="px-4 py-2 rounded-md bg-primary text-white"
-                onClick={downloadPdf}
-              >
-                Download PDF
-              </button>
-              <button 
-                className="px-4 py-2 rounded-md border border-input bg-background"
+              <Button 
+                variant="outline"
                 onClick={handleClose}
+                className="gap-1"
               >
+                <X className="h-4 w-4" />
                 Close
-              </button>
+              </Button>
+              <Button 
+                onClick={downloadPdf}
+                className="gap-1"
+              >
+                <Download className="h-4 w-4" />
+                Download PDF
+              </Button>
             </div>
           </div>
         ) : (
