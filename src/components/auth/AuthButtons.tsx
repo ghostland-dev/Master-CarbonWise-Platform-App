@@ -7,8 +7,8 @@ import { useToast } from "@/hooks/use-toast";
 const AuthButtons = () => {
   const { isSignedIn } = useUser();
   const { signOut } = useAuth();
-  const { openSignIn } = useSignIn();
-  const { openSignUp } = useSignUp();
+  const { isLoaded: isSignInLoaded, signIn } = useSignIn();
+  const { isLoaded: isSignUpLoaded, signUp } = useSignUp();
   const { toast } = useToast();
 
   const handleSignOut = async () => {
@@ -27,6 +27,21 @@ const AuthButtons = () => {
     }
   };
 
+  const handleSignIn = () => {
+    if (!isSignInLoaded) return;
+    signIn.create({
+      identifier: "email",
+      redirectUrl: "/dashboard"
+    });
+  };
+
+  const handleSignUp = () => {
+    if (!isSignUpLoaded) return;
+    signUp.create({
+      redirectUrl: "/dashboard"
+    });
+  };
+
   if (isSignedIn) {
     return (
       <Button 
@@ -43,13 +58,13 @@ const AuthButtons = () => {
     <div className="flex items-center gap-2">
       <Button 
         variant="outline" 
-        onClick={() => openSignIn()}
+        onClick={handleSignIn}
         className="text-sm"
       >
         Se connecter
       </Button>
       <Button 
-        onClick={() => openSignUp()}
+        onClick={handleSignUp}
         className="text-sm"
       >
         S'inscrire
