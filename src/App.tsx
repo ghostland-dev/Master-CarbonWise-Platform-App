@@ -9,7 +9,6 @@ import Dashboard from "./pages/Dashboard";
 import Reports from "./pages/Reports";
 import DataInput from "./pages/DataInput";
 import NotFound from "./pages/NotFound";
-import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -21,21 +20,9 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/dashboard" element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          } />
-          <Route path="/reports" element={
-            <ProtectedRoute>
-              <Reports />
-            </ProtectedRoute>
-          } />
-          <Route path="/data-input" element={
-            <ProtectedRoute>
-              <DataInput />
-            </ProtectedRoute>
-          } />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/reports" element={<Reports />} />
+          <Route path="/data-input" element={<DataInput />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
