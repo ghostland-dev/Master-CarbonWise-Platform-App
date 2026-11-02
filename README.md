@@ -1,5 +1,7 @@
 # 🌱 CarbonWise
 
+[![CI](https://github.com/ghostland-dev/carbonwise-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/ghostland-dev/carbonwise-platform/actions/workflows/ci.yml)
+
 **CarbonWise** est une plateforme tout-en-un qui aide les entreprises à mesurer, gérer et réduire leur empreinte carbone en toute simplicité. Développée avec Vite, React, TypeScript, TailwindCSS, et shadcn/ui.
 
 ![image](https://github.com/user-attachments/assets/8b71e424-9d86-4622-8737-cfad3304bc0b)
